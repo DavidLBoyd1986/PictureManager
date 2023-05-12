@@ -2,10 +2,10 @@ import pathlib
 import os
 import re
 from HelperFunctions import input_converter
-from OSFunctions import createPictureDirectory
+from ProcessPictures import *
 
 
-class PictureManagerSession:
+class SessionManager:
     def __init__(self):
 
         # get OS type, determines valid directory paths
@@ -223,7 +223,7 @@ class PictureManagerSession:
                 self.session_options["preserve_blurry"] = input_converter(preserve_blurry)
                 break
 
-    def input_reorientate_pictures(self):
+    def input_orientate_pictures(self):
         """Method used by initialization_questions for input about re-orientating pictures saved in wrong direction."""
         while True:
             try:
@@ -285,38 +285,3 @@ class PictureManagerSession:
                 break
         time_organization = frozenset[time_organize_year_input, time_organize_month_input, time_organize_day_input]
         self.session_options["time_organization"] = time_organization
-
-
-# End input methods.
-# Methods to process pictures are listed below
-    # Goes through pictures
-    def process_pictures(self, recursive):
-        # Create directory, and any sub directories, to store pictures in for this session
-        if self.session_options["os_type"] == "posix":
-            self.create_directories_linux()
-        if self.session_options["os_type"] == "nt":
-            self.create_directories_windows()
-        # Go through every picture in the directory
-
-
-    # Create any directories required
-    def create_directories_windows(self):
-        # If new directories are to be created to store pictures, create them
-        if self.session_options["modify_directory"] is False:
-            # Create a new session directory to store pictures in
-            createPictureDirectory(self.session_options["new_directory_object"])
-            # Create sub directories to organize by time
-
-        elif self.session_options["modify_directory"] is True:
-            # Create sub directories (under working directory) to organize by time
-
-    # Create any directories required
-    def create_directories_linux(self):
-        # If new directories are to be created to store pictures, create them
-        if self.session_options["modify_directory"] is False:
-            # Create a new session directory to store pictures in
-
-            # Create sub directories to organize by time
-
-        elif self.session_options["modify_directory"] is True:
-            # Create sub directories (under working directory) to organize by time
