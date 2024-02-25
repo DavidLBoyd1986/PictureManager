@@ -10,8 +10,8 @@ session_options = {'root_directory_object': WindowsPath('D:/Picture_Manager_Test
                    'os_type': 'nt'}
 
 # Get string location of directory
-picDirectoryString = "D:\Picture_Manager_Test\Simple_Test_Directory"
-copyPicDirectoryString = "D:\Picture_Manager_Test\Copy_Test_Directory"
+picDirectoryString = "D:\\Picture_Manager_Test\\Simple_Test_Directory"
+copyPicDirectoryString = "D:\\Picture_Manager_Test\\Copy_Test_Directory"
 
 # Turn string into directory path
 picDirectoryPath = Path(picDirectoryString)
@@ -19,7 +19,6 @@ copyPicDirectoryPath = Path(copyPicDirectoryString)
 
 # Keep track of processed pics to prevent copying duplicates
 processedPics = {}
-
 
 # Get list of sub directories, Not needed - .glob automatically recursively searches a directory tree
 #subDirectories = [x for x in picDirectoryPath.iterdir() if x.is_dir()]
