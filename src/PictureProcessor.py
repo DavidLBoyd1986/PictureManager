@@ -8,8 +8,6 @@ class PictureProcessor:
     Object that contains methods to process pictures for the application.
     """
     def __init__(self, session_options):
-        # Changed to just passing session_options, can probably delete this.
-        #self.session_manager = session_manager
         self.session_options = session_options
 
         # Do I need this here??
