@@ -1,3 +1,4 @@
+import hashlib
 from pathlib import Path
 import shutil
 import PIL.Image
@@ -18,6 +19,8 @@ class PictureProcessor:
         self.session_options = session_options
         
         self._processedImageTracker = {}
+        self._hashedImageTracker = {}
+
         # Do I have to turn it into a Path since it's already a WindowsPath
         self._rootDirectoryPath = Path(session_options['root_directory_object'])
         self._copyPicDirectoryPath = Path(session_options['new_directory_object'])
@@ -50,6 +53,13 @@ class PictureProcessor:
         """Processes all the pictures in indicated directory
         """
         for pic in self._picList:
+            # Hash pic, and check if it is a duplicate
+            pic_hash = self._hash_pic(pic.__str__())
+            if pic_hash not in self._hashedImageTracker:
+                self._hashedImageTracker[pic_hash] = True
+            else:
+                continue
+
             # This grabs the pic filename from the whole directory path
             pic_name = pic.__str__().split('\\')[-1]
 
@@ -65,6 +75,14 @@ class PictureProcessor:
                 shutil.copyfile(pic, copy_location)
             else:
                 continue
+
+    def _hash_pic(self, pic_file, algorithm='sha256'):
+        """Calculate the hash digest of the pic file"""
+        hasher = hashlib.new(algorithm)
+        with open(pic_file, 'rb') as f:  # 'rb' reads it in as binary
+            while chunk := f.read(4096):  # ':=' walrus operator - assigns variables inside expressions
+                hasher.update(chunk)
+        return hasher.hexdigest()
 
     def _organize_pic_by_time(self, pic_in_pil, pic_name):
         """
