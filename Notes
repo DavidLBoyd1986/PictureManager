@@ -1,0 +1,17 @@
+
+TODO:
+
+1. Create a Pipeline
+2. Add in actual testing
+    * The data set to test against is large:
+        - Can't store it in repo
+        - Best solution would be to store it on the gitlab-runner and treat is as a test-server
+    * Verifying the tests worked without a GUI to manually test
+        - Have individual directories for testing the functions (delete dups, blurry, etc..)
+        - Have duplicate hashes saved in the test, and verify they were removed after the function ran
+            - Do this for unit and large integration tests
+        - Have blurry hashes saved in the test, and verify they were removed after the function ran
+            - Do this for unit and large integration tests
+        - Have # of pics that should be organized in each directory by time
+            - Do this for unit and large integration tests
+3. Add argparse instead of the junky way I do adding options now

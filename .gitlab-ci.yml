@@ -1,0 +1,25 @@
+
+
+stages:
+- build
+- test
+- cleanup
+
+
+package-app:
+  stage: build
+  tags:
+    - master-server-docker
+  image:
+    name: davidboyd1986/aws-kube:latest
+  script:
+    - echo "Package app into a folder"
+
+test-app:
+  stage: test
+  tags:
+    - master-server-docker
+  image:
+    name: davidboyd1986/aws-kube:latest
+  script:
+    - echo "Test the application on a Test Directory"
