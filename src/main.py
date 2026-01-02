@@ -2,19 +2,16 @@ from SessionManager import SessionManager
 from PictureProcessor import PictureProcessor
 from pathlib import Path
 from pathlib import WindowsPath
+from cli.parser import create_parser
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+def main():
 
+    parser = create_parser()
+    args = parser.parse_args()
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-
+    if args.command == 'organize':
+        handle_organize(args)
+        
     # Get user input for the session
     # session_manager = SessionManager()
 
@@ -55,3 +52,9 @@ if __name__ == '__main__':
     # PictureProcessor(session_options_large)
 
     # Large Integration Tests
+
+# Press the green button in the gutter to run the script.
+if __name__ == '__main__':
+    main()
+
+
