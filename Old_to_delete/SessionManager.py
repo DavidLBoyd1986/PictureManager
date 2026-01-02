@@ -2,7 +2,7 @@ import pathlib
 import os
 import re
 from HelperFunctions import input_converter
-from PictureProcessor import *
+from core.PictureProcessor import *
 
 
 class SessionManager:

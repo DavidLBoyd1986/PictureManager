@@ -35,6 +35,25 @@ def create_parser():
     organize_parser.add_argument('--delete_duplicates', required=False,
                                  action='store_true', default=False,
                                  help='delete duplicate pictures (DESTRUCTIVE)')
-
     return parser
-    
+
+
+def parse_args(argv=None) -> argparse.Namespace:
+    parser = create_parser()
+    args = parser.parse_args
+    validate_args(args)
+    return args
+
+
+def validate_args(parser: argparse.ArgumentParser, args: argparse.Namespace):
+    if args.in_place and args.output_directory:
+        parser.error("--output-directory can't be used if --in-place is used")
+    if args.organize_by_month and not args.organize_by_year:
+        parser.error("Can't --organize-by-month if not including"
+                     "--organize-by-year")
+    if args.organize_by_day and not args.organize_by_year:
+        parser.error("Can't --organize-by-day if not including"
+                     "--organize-by-year")
+    if args.organize_by_day and not args.organize_by_month:
+        parser.error("Can't --organize-by-day if not including"
+                     "--organize-by-month")
