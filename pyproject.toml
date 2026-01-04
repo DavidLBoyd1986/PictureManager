@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "picture-manager"  # or "picturemanager"
+version = "0.1.0"
+description = "Picture Manager CLI"
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "pillow"
+]
+
+[project.scripts]
+picturemanager = "picture_manager.__main__:main"
+# Or use kebab-case:
+# picture-manager = "picture_manager.__main__:main"
+
+# If using src layout:
+[tool.setuptools.packages.find]
+where = ["src"]

@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import MagicMock, patch
-import src.PictureProcessor as PictureProcessor
+import core.PictureProcessor as PictureProcessor
 
 
 class TestPictureProcessor(unittest.TestCase):
