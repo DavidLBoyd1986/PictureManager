@@ -70,8 +70,6 @@ class PictureProcessor:
 
             # Get the picture filename from the whole directory path
             picture_name = picture.__str__().split('\\')[-1]
-
-            # Open the picture with PIL to extract metadata
             picture_in_pil = Image.open(picture)
 
             if not args.organize_by_year and not args.organize_by_month and not args.organize_by_day:
@@ -84,11 +82,6 @@ class PictureProcessor:
                 # Get location to copy file to based on time, creates directories if necessary
                 copy_location = self._organize_pictures_by_time(picture_in_pil, picture_name, args)
 
-            #TODO - Delete Debug statement below
-            if copy_location.__str__().__contains__('no_timestamp'):
-                print(picture_name)
-
-            # Copy the file to the new directory
             shutil.copyfile(picture, copy_location)
 
     def _hash_picture(self, picture_file: Path, algorithm='sha256') -> str:
@@ -116,12 +109,10 @@ class PictureProcessor:
         """
 
         exif_data = picture_in_pil.getexif()
-        print(exif_data) #TODO - Delete this debug
 
         if exif_data is not None: #  If exif_data is None, no metadata exists
             picture_taken_date = exif_data.get(306)
             if picture_taken_date is None: # If None, no timestamp exists
-                print(picture_taken_date) #TODO - Delete this debug
                 if not Path(self._output_directory_path.__str__() + '\\' + "no_timestamp").exists():
                     (self._output_directory_path / "no_timestamp").mkdir()
                 return self._output_directory_path / "no_timestamp" / picture_name
@@ -134,7 +125,7 @@ class PictureProcessor:
         month_taken = picture_taken_date.split(':')[1]
         day_taken = picture_taken_date.split(':')[2].split(' ')[0]
 
-        # If directory for time doesn't exist, create it
+        # If directory for time isn't there, create it, then set copy location
         if args.organize_by_year:
             if not Path(self._output_directory_path.__str__() + '\\' +
                         str(year_taken)).exists():
@@ -156,9 +147,11 @@ class PictureProcessor:
                     str(month_taken) / str(day_taken)).mkdir()
             copy_location = (self._output_directory_path / str(year_taken) /
                              str(month_taken) / str(day_taken) / picture_name)
+
         try:
             copy_location
         except NameError:
             raise RuntimeError("The copy_location variable was never" \
                 "created in _organize_pictures_by_time method")
+
         return copy_location
