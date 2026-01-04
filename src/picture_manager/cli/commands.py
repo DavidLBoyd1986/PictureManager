@@ -1,5 +1,6 @@
 
-import core.PictureProcessor as PictureProcessor
+from picture_manager.core.PictureProcessor import PictureProcessor
+
 # Maps CLI commands to business logic
 def handle_organize(args):
     """Handle the organize command"""

@@ -1,5 +1,6 @@
 import hashlib
 from pathlib import Path
+from datetime import datetime
 import argparse
 import shutil
 from PIL import Image
@@ -20,9 +21,11 @@ class PictureProcessor:
         self.args = args 
         self._processedImageTracker = {}
 
-        # Do I have to turn it into a Path since it's already a WindowsPath
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        subdir = "organized_pictures_" + timestamp
         self._source_directory_path = Path(args.directory)
-        self._output_directory_path = Path(args.output_directory)
+        self._output_directory_path = Path(args.output_directory) / subdir
+        self._output_directory_path.mkdir()
         self._picture_list = self._compile_picture_list()
 
         # TODO: Process video files as well
@@ -79,7 +82,7 @@ class PictureProcessor:
                 copy_location = self._output_directory_path / picture_name
             else:
                 # Get location to copy file to based on time, creates directories if necessary
-                copy_location = self._organize_pictures_by_time(picture_in_pil, picture_name)
+                copy_location = self._organize_pictures_by_time(picture_in_pil, picture_name, args)
 
             #TODO - Delete Debug statement below
             if copy_location.__str__().__contains__('no_timestamp'):
@@ -129,18 +132,33 @@ class PictureProcessor:
 
         year_taken = picture_taken_date.split(':')[0]
         month_taken = picture_taken_date.split(':')[1]
+        day_taken = picture_taken_date.split(':')[2].split(' ')[0]
 
         # If directory for time doesn't exist, create it
         if args.organize_by_year:
             if not Path(self._output_directory_path.__str__() + '\\' +
                         str(year_taken)).exists():
                 (self._output_directory_path / str(year_taken)).mkdir()
+            copy_location = (self._output_directory_path / str(year_taken) /
+                             picture_name)
         if args.organize_by_month:
             if not Path(self._output_directory_path.__str__() + '\\' +
                         str(year_taken) + '\\' + str(month_taken)).exists():
                 (self._output_directory_path / str(year_taken) /
                     str(month_taken)).mkdir()
-
-        copy_location = self._output_directory_path / str(year_taken) / str(month_taken) / picture_name
-
+            copy_location = (self._output_directory_path / str(year_taken) /
+                str(month_taken) / picture_name)
+        if args.organize_by_day:
+            if not Path(self._output_directory_path.__str__() + '\\' +
+                        str(year_taken) + '\\' + str(month_taken) + 
+                        '\\' + str(day_taken)).exists():
+                (self._output_directory_path / str(year_taken) /
+                    str(month_taken) / str(day_taken)).mkdir()
+            copy_location = (self._output_directory_path / str(year_taken) /
+                             str(month_taken) / str(day_taken) / picture_name)
+        try:
+            copy_location
+        except NameError:
+            raise RuntimeError("The copy_location variable was never" \
+                "created in _organize_pictures_by_time method")
         return copy_location

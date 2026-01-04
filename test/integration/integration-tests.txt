@@ -1,0 +1,8 @@
+
+# Simple test
+
+picturemanager organize -d  D:\picture_manager_test_files\integration_testing\test_small_directory -o D:\picture_manager_test_files\output_directory --organize-by-year --organize-by-month --delete-duplicates
+
+picturemanager organize -d  D:\picture_manager_test_files\integration_testing\test_medium_directory -o D:\picture_manager_test_files\output_directory --organize-by-year --organize-by-month --organize-by-day --delete-duplicates
+
+picturemanager organize -d  D:\picture_manager_test_files\integration_testing\test_small_directory -o D:\picture_manager_test_files\output_directory --organize-by-year --organize-by-month --organize-by-day --delete-duplicates
